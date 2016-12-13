@@ -1,20 +1,15 @@
 <?php
 /*
 	контроллер СТРАНИЦЫ
-			предназначен для действий НА КОНКРЕТНОЙ СТРАНИЦЕ (при необходимости - переопределение базовых вставок и прочих сущностей)
-			срабатывает автоподключение класса-родителя (в единой точке входа - файле index.php)
+		предназначен для действий НА КОНКРЕТНОЙ СТРАНИЦЕ (при необходимости - переопределение базовых вставок и прочих сущностей)
 */
 class C_Page extends C_Site
 {
-	// конструктор - остается прежним (просто вызываем родительский)
 	function __construct(){
 		parent::__construct();
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////   формируем вставки-"модули"   ////////////////////////////////////
-	///////////////////////////   (идем по адресу и считываем верстку в соотв. поле класса) ///////
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	// формируем вставки-"модули"   ////////////////////////////////////
 	private function createStandartModules()
 	{
 		$this->meta 			= $this->baseTemplating( 'views/meta.html' );
@@ -23,9 +18,6 @@ class C_Page extends C_Site
 		$this->right_sidebar	= $this->baseTemplating( 'views/right_sidebar.html' );
 		$this->footer 			= $this->baseTemplating( 'views/footer.html');
 	}
-
-
-	///////////////////////////////   "ОРГАНИЗАЦИОННЫЕ" СТРАНИЦЫ  //////////////////////////////////
 
 	// страница поиска статей
 	public function create_articles_search()
@@ -108,14 +100,4 @@ class C_Page extends C_Site
 		$this->createStandartModules();
 		$this->content_inner = $this->baseTemplating('views/pages/thematics/technical.html');
 	}
-/*
-	// тестовая страница (пример добавления сайдбара на НЕКОТОРЫХ страницах)
-	public function create_test()
-	{
-		$this->createStandartModules();
-		$this->left_sidebar 	= $this->baseTemplating( 'views/test_left.html' );
-		$this->content_inner = $this->baseTemplating('views/pages/thematics/sport.html');
-	}
-*/	
-	//$this->rShow();
 }
