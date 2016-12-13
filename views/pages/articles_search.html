@@ -1,0 +1,114 @@
+﻿<!-- РУССКОЯЗЫЧНАЯ ВЕРСИЯ СТРАНИЦЫ -->
+
+<!-- шаблон главной страницы -->
+<td width="100%" style="padding:30px ">
+
+	<table class="correct" id="oblojka_left">
+		<tr>
+			<td>
+				
+				<h2 class="pad0">Поиск статьи</h2>
+
+				<div class="wrap-enter-data">
+					<fieldset>
+						<legend><h3>Введите сюда данные для поиска</h3></legend>
+						
+						<table id="tidings-table-search">
+							<tr >
+								<td class="table-first-column">Автор</td>
+								<td>
+									<input type="text" class="search-author-field2 checkValue" placeholder="Введите имя автора" />
+								</td>
+							</tr>
+							<tr >
+								<td class="table-first-column">Название статьи</td>
+								<td class=>
+									<textarea class="search-article-name-field checkValue" placeholder="Введите название статьи"></textarea>
+								</td>
+							</tr>
+							<tr >
+								<td class="table-first-column">Категория</td>
+								<td>
+									<select class="search-category-list checkValue">
+										<option></option>
+										<option>Гуманитарные науки</option>
+										<option>Естественные науки</option>
+										<option>Технические науки </option>
+										<option>Экономические и юридические науки</option>
+										<option>Науки о Земле</option>
+										<option>Физическая культура. Спорт</option>
+										<option>Педагогика</option>
+									</select>
+								</td>
+							</tr>
+							<tr >
+								<td class="table-first-column">Год</td>
+								<td>
+									<select class="search-years-list checkValue">
+										<option></option>
+										<option>2016</option>
+										<option>2015</option>
+										<option>2014</option>
+										<option>2013</option>
+										<option>2012</option>
+										<option>2011</option>
+										<option>2010</option>
+										<option>2009</option>
+										<option>2008</option>
+										<option>2007</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+						
+						<br /><br />
+						<input type="button" class="search-data-send" value="Отправить запрос" />
+					</fieldset>
+				</div>
+				<br />
+				<div class="status-error-div"></div>
+				<div class="status-ok-div"></div>
+				<br />
+				<div id="search-page-result">
+
+					<!-- Вывод результатов -->
+					<div class="main-table hide">
+						<div class="wrap-arts-header" style="background-color: silver" >
+							<div class="td td-author">		Автор			</div>
+							<div class="td td-article-name">Название статьи	</div>
+							<div class="td td-category">	Категория		</div>
+							<div class="td td-year">		Год				</div>
+							<div class="td td-status">		Статус			</div>
+							<div class="td td-filename">	Имя файла		</div>
+							<div class="td td-pages">		Страницы		</div>
+						</div>
+					</div>
+
+					<div class="all-templates hide">
+						<div class="wrap-arts-row">
+							<div class="td td-author">		</div>
+							<div class="td td-article-name"></div>
+							<div class="td td-category">	</div>
+							<div class="td td-year">		</div>
+							<div class="td td-status">		</div>
+							<div class="td td-filename">	</div>
+							<div class="td td-pages">		</div>
+						</div>
+					</div>
+				</div>
+
+
+			</td>
+		</tr>
+	</table>
+</td>
+<script src="public/js/article_search.js" defer></script>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,74 @@
+<?php if (isset($_GET['lang']) && $_GET['lang'] == 'en') : ?>
+
+
+		<!-- АНГЛОЯЗЫЧНАЯ ВЕРСИЯ СТРАНИЦЫ -->
+
+		<!--
+		<form>
+			<table id="reg">
+				<tr ><td colspan="2" ><p >јвторизаци¤</p></td></tr>
+				<tr><td>Логин: </td><td><input type="text" name ="" value="" size="15px" /></td></tr>
+				<tr><td>Пароль: </td><td><input type="text" name ="" value="" size="15px" /></td></tr>
+				<tr><td colspan="2"><input type="submit" name ="" value="ќтправить"  /></td></tr>
+			</table>
+		</form>
+		-->
+
+		<!-- правая колонка: меню -->
+		<ul>
+			<li><a href="index.php?id=index&lang=en"> 		General information		</a></li>
+			<li><a href="index.php?id=sovet&lang=en">		Editorial council		</a></li>
+
+			<h3>Thematic series:</h3>
+			<li><a href="index.php?id=humanitarian&lang=en">Humanitarian sciences *)				</a></li>
+			<li><a href="index.php?id=natural&lang=en">		Natural sciences *)						</a></li>
+			<li><a href="index.php?id=technical&lang=en">	Technical sciences *)					</a></li>
+			<li><a href="index.php?id=economic&lang=en">	Economic and <br /> legal sciences *)	</a></li>
+			<li><a href="index.php?id=earth&lang=en">		Sciences of Earth						</a></li>
+			<li><a href="index.php?id=sport&lang=en">		Physical culture. Sport	 *)				</a></li>
+			<li><a href="index.php?id=ped&lang=en">			Pedagogics								</a></li>	
+			
+			<h3>Standard and help <br /> documents:</h3>
+			<!-- <li><a id=polozhenie_o_recenzii href="#polozhenie_o_recenzii" onClick="download_pdf('polozhenie_o_recenzii_en')">Right direction, <br>review and publication <br>of scientific articles</a></li> -->
+			<li><a id=periodichnost_vyhoda href="#periodichnost_vyhoda" onClick="download_pdf('periodichnost_vyhoda_v_2015')">Periodicity</a></li>
+			<li><a id=GOST_R href="#GOST_R" onClick="download_pdf('GOST_R_7.0.5-2008._Bibliograficheskaja_ssylka')">	GOST R 7.0.5-2008. <br> Bibliography link</a></li>
+		</ul>
+
+<?php else: ?>
+
+		<!-- РУССКОЯЗЫЧНАЯ ВЕРСИЯ СТРАНИЦЫ -->
+
+		<!--
+		<form>
+			<table id="reg">
+				<tr ><td colspan="2" ><p >јвторизаци¤</p></td></tr>
+				<tr><td>Логин: </td><td><input type="text" name ="" value="" size="15px" /></td></tr>
+				<tr><td>Пароль: </td><td><input type="text" name ="" value="" size="15px" /></td></tr>
+				<tr><td colspan="2"><input type="submit" name ="" value="отправить"  /></td></tr>
+			</table>		
+		</form>
+		-->
+
+		<!-- правая колонка: меню -->
+		<ul>
+			<li><a href="index.php?id=index"> 					Общие сведения		</a></li>
+			<li><a href="index.php?id=sovet">					Редакционный совет	</a></li>
+			<li><a href="modules/redactor/index.html">			Редактор статей		</a></li>
+			<li><a href="index.php?id=articles_search">			Просмотр статей	</a></li>
+
+			<h3>Тематические серии:</h3>
+			<li><a href="index.php?id=humanitarian&lang=ru">	Гуманитарные науки *)						</a></li>
+			<li><a href="index.php?id=natural&lang=ru">			Естественные науки *)						</a></li>
+			<li><a href="index.php?id=technical&lang=ru">		Технические науки *)						</a></li>
+			<li><a href="index.php?id=economic&lang=ru">		Экономические и <br /> юридические науки *)	</a></li>
+			<li><a href="index.php?id=earth&lang=ru">			Науки о Земле								</a></li>
+			<li><a href="index.php?id=sport&lang=ru">			Физическая культура. Спорт  *)				</a></li>
+			<li><a href="index.php?id=ped&lang=ru">				Педагогика									</a></li>	
+			
+			<h3>Нормативные и справочные <br /> материалы:</h3>
+			<!-- <li><a id=polozhenie_o_recenzii href="#polozhenie_o_recenzii" onClick="download_pdf('polozhenie_o_recenzii_rus')">Правила направления, <br />рецензирования и опубликования <br />научных статей</a></li> -->
+			<li><a id="periodichnost_vyhoda" href="#periodichnost_vyhoda" onClick="download_pdf('periodichnost_vyhoda_v_2015')">Периодичность выхода</a></li>
+			<li><a id="GOST_R" href="#GOST_R" onClick="download_pdf('GOST_R_7.0.5-2008._Bibliograficheskaja_ssylka')">ГОСТ Р 7.0.5-2008.<br>Библиографическая ссылка</a></li>
+		</ul>
+
+<?php endif; ?>

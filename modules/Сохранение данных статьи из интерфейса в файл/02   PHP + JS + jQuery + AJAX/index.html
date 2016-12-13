@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Добавить статью</title>
+    <style>
+    	body { font-family: Georgia; font-size: 14px; color: #000; }
+
+		.red   { border: 3px solid red; } 		/* подсветка незаполненных полей */
+		.alert { color: red; } 					/* звездочки */
+
+		a { color: #00f; text-decoration: none; }
+			a:hover { text-decoration: underline; }
+
+		textarea { width: 500px; height: 300px; }
+
+		.textarea-new-article-author 		{ width: 500px;	height: 60px;  }
+		.textarea-new-article-article-name	{ width: 500px; height: 100px; }
+		.input-new-article-category 		{ width: 200px; margin-right: 50px}
+		.input-new-article-year 			{ width: 50px;  margin-right: 50px}
+		.input-new-article-status 			{ width: 200px; margin-right: 50px}
+		.input-new-article-filename 		{ width: 333;   margin-right: 50px}
+		.input-new-article-pages 			{ width: 175;   margin-right: 50px}
+		.input-new-article-notes 			{ width: 719;   margin-right: 50px}
+		.input-new-article-iser_id 			{ width: 230;   margin-right: 50px}
+    </style>
+    <script type="text/javascript" src="jq.js"></script>
+</head> 
+
+<body>
+	<h1>Добавление статьи</h1>
+	
+	<!-- форма для создания статьи -->
+	<div id="wrapper">
+		Автор		<span class="alert">*</span>:	<br/><textarea 	class="textarea-new-article-author 		  checkValue"	id="author"			></textarea>	<br/><br/>
+		Название	<span class="alert">*</span>:	<br/><textarea 	class="textarea-new-article-article-name  checkValue"	id="article_name"	></textarea>	<br/><br/><br/>
+		
+		Категория	<span class="alert">*</span>:	<input class="input-new-article-category checkValue" 	  type="text" 	id="category"	  	value="" 	/>
+		Год			<span class="alert">*</span>:	<input class="input-new-article-year  	 checkValue" 	  type="text" 	id="year"  		  	value="" 	/>
+		Статус		<span class="alert">*</span>:	<input class="input-new-article-status   checkValue" 	  type="text" 	id="status"  	  	value="" 	/>
+		<br/>
+		<br/>		
+		Имя файла 	<span class="alert">*</span>:	<input class="input-new-article-filename checkValue" 	  type="text" 	id="file_name"    	value="" 	/>
+		Страницы 	<span class="alert">*</span>:	<input class="input-new-article-pages 	 checkValue"   	  type="text"	id="article_page" 	value="" 	/>
+		<br/>
+		<br/>
+		Примечания 	<span class="alert">*</span>:<br/><input class="input-new-article-notes checkValue" 	  type="text" 	id="notes"  	  	value="" 	/>
+		<br/>
+		<br/>
+		<br/>
+		<input type="button" id="add_art" value="Добавить" />
+	</div>
+
+	<hr/>
+	<div id="result"></div>
+</body>
+</html>
+
+<script>
+var 
+    path         = 'server.php',
+    method       = 'POST',
+    dataToServer = '';
+
+function main() {
+	// проверка заполнения полей формы
+	if (!checkFormFields()) {
+		alert('Необходимо заполнить все поля формы!');
+		return;
+	}
+	dataToServer = createDataToServer();
+	sendQuery(path, method, dataToServer, serverAnswer);
+}
+
+// проверка заполнения полей
+// 		1 - все проверяемые поля должны иметь класс checkValue
+//		2 - подключена jQuery
+// 		3 - CSS-класс red {border: 1px solid red;}
+function checkFormFields() {
+
+	var error = false;
+
+	$('.checkValue').each(function() {	// если не подключена jQuery, реализовать на JS
+		this.classList.remove('red');	// снимаем предыдущее выделение
+		
+		if (!this.value){
+			this.classList.add('red');	// выделяем пустой элемент
+			error = true;
+		}
+	});
+
+	if(error) return false;
+	return true;
+}
+
+// формирование объекта для отправки на сервер
+function createDataToServer() {
+	return {
+		author		 : document.querySelector('#author').value,
+		article_name : document.querySelector('#article_name').value,
+		category 	 : document.querySelector('#category').value,
+		year 		 : document.querySelector('#year').value,
+		status 		 : document.querySelector('#status').value,
+		file_name 	 : document.querySelector('#file_name').value,
+		article_page : document.querySelector('#article_page').value,
+		notes 		 : document.querySelector('#notes').value
+	};
+}
+
+// функция для отправки запроса (обертка вокруг метода jQuery)
+function sendQuery(path, method, data, cb) {
+    $.ajax({
+        url     : path,
+        type    : method,
+        data    : data, 
+        success : function(data) { cb(data); }
+    });
+}
+
+// обработка ответа сервера
+function serverAnswer(data) {
+    // проверка ответа сервера
+    if(!data) {
+	    $("#result").html(data);
+	    return;
+	}
+
+	// очищаем поля формы
+	$('.checkValue').each(function() {
+		this.value = '';
+	});
+
+	// выводим результат работы сервера
+	$("#result").html(data);
+}
+
+//****************************** ВЫПОЛНЕНИЕ СЦЕНАРИЯ *************************
+
+// обработка клика по кнопке отправки
+$('#add_art').click(function(e) { main(); });
+
+</script>

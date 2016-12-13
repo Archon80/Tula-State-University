@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<?=$meta?>
+</head>
+<body>
+	<div id="flippage"></div>
+	<div id="wrapper">
+			<div id="header">					<?=$header?>			</div>
+
+			<div id="bread_crumbs_and_lang">	<?=$bread_crumbs?>		</div>
+
+			<div id="content">
+				<!-- <div id="left-bar">				<?=$left_sidebar?>		</div> -->
+				<div id="right-bar">			<?=$right_sidebar?>		</div>
+				<div id="content-inner">		<?=$content_inner?>		</div>
+				<div id="bufer"></div>
+			</div>
+			
+			<div id="strip"></div>
+			
+			<div id="footer">					<?=$footer?></div>
+	</div>
+</body>
+</html>
+<!--
+	Ссылки в меню напрямую взаимодействуют с одной точкой входа
+		1-й параметр гет-запроса - какую низовую сущность вызывать,
+		2-й - какую страницу подключить (какой метод низовой сущности вызвать)
+-->

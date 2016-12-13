@@ -1,0 +1,33 @@
+<?php if (isset($_GET['lang']) && $_GET['lang'] == 'en') : ?>
+
+
+		<!-- АНГЛОЯЗЫЧНАЯ ВЕРСИЯ СТРАНИЦЫ -->
+
+		<!-- подвал -->
+		<div id="feedback">
+			Publishing house of TULGU,<br />
+			edition: <br /><a href="mailto:press@tsu.tula.ru">press@tsu.tula.ru</a>
+		</div>
+		<div id="feedback">						
+			300012 Tula, Lenun avenue, 95.<br />
+			Phone: 35-25-06<br />
+			Fax: 35-36-20
+		</div>
+		<iframe hidden = true width="0px" height="0px" id="pdf_download">
+<?php else: ?>
+
+		<!-- РУССКОЯЗЫЧНАЯ ВЕРСИЯ СТРАНИЦЫ -->
+
+		<!-- подвал -->
+		<div class="feedback">
+			Издательство ТулГУ,<br />
+			редакция: <br /><a href="mailto:press@tsu.tula.ru">press@tsu.tula.ru</a>
+		</div>
+		<div class="feedback">						
+			300012 г. Тула, пр. <a href="index.php?id=auth" alt="">Ленина</a>, 95.<br />
+			Тел.: 35-25-06<br />
+			Тел. / факс: 35-36-20
+		</div>
+		<iframe hidden = true width="0px" height="0px" id="pdf_download">
+
+<?php endif; ?>

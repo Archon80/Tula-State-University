@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+	<style>
+		body { font-family: Georgia; font-size: 14px; color: #000; }
+
+		.alert { color: red; }
+		.hide  { display: none; }
+		.red   { border: 1px solid red; }
+
+		a { color: #00f; text-decoration: none; }
+			a:hover { text-decoration: underline; }
+
+		textarea { width: 500px; height: 300px; }
+
+		/* меню */
+		.menu, .td { display: inline-block; }
+
+
+		/* форма для ввода данных пользователем */
+		.table-first-column         { width: 200px; padding-bottom: 30px; }
+		.search-author-field        { width: 400px; }
+		.search-article-name-field  { width: 400px; height: 60px; padding-bottom: 30px; }
+		.search-category-text       { padding-bottom: 30px; }
+
+		/* страница добавления статей */
+		.textarea-author 		{ width: 500px;	height: 60px;  }
+		.textarea-article-name	{ width: 500px; height: 100px; }
+		.input-category 		{ width: 200px; margin-right: 50px}
+		.input-year 			{ width: 50px;  margin-right: 50px}
+		.input-status 			{ width: 200px; margin-right: 50px}
+		.input-filename 		{ width: 333; margin-right: 50px}
+		.input-pages 			{ width: 175; margin-right: 50px}
+		.input-notes 			{ width: 719; margin-right: 50px}
+		.input-iser_id 			{ width: 230; margin-right: 50px}
+
+
+		/* таблица вывода результатов (в контроллерах articles_show.php и articles_edit.php)*/
+		#tidings-table { border-collapse: collapse; margin: 50px 0; }
+
+		.td-author 		{ width:200px; text-align:center; padding-top: 25px; padding-bottom: 25px; }
+		.td-article-name{ width:400px; text-align:center; text-align:center; padding-top: 25px; padding-bottom: 25px; }
+		.td-category 	{ width:200px; text-align:center; text-align:center; padding-top: 25px; padding-bottom: 25px; }
+		.td-year		{ width:80px;  text-align:center; text-align:center; padding-top: 25px; padding-bottom: 25px; }
+		.td-status		{ width:200px; text-align:center; text-align:center; padding-top: 25px; padding-bottom: 25px; }
+		.td-filename	{ width:200px; text-align:center; text-align:center; padding-top: 25px; padding-bottom: 25px; }
+		.td-pages 		{ width:100px;  text-align:center; text-align:center; padding-top: 25px; padding-bottom: 25px; }
+		.td-change		{ width:100px; text-align:center; text-align:center; padding-top: 25px; padding-bottom: 25px; }
+
+	</style>
+	<script src="jquery.js"></script>
+</head>
+
+
+
+<body>
+	<h1>Редактор статей</h1>
+
+	<div class="error"></div>
+	
+	<!-- НАВИГАЦИОННЫЙ БЛОК - показ страниц -->
+	<div class="menu" onclick="pageIndex()"><a href="#">Список статей  </a></div> |
+	<div class="menu" onclick="pageAdd()">  <a href="#">Добавить статью</a></div> |
+	
+	<hr/>
+	
+	<!-- СМЕННЫЙ КОНТЕНТ -->
+	<div class="wrap_index"></div>
+	<div class="wrap_show"></div>
+
+
+
+	<!-- ШАБЛОНЫ -->
+	<div id="all-templates" class="hide">
+		
+		
+		<!-- ФОРМА ПОИСКА СТАТЕЙ -->
+		<div class="form_search_articles">
+			<fieldset>
+				<legend><h3>Введите сюда данные для поиска</h3></legend>
+				
+				<table id="tidings-table-search">
+					<tr >
+						<td class="table-first-column">Автор</td>
+						<td>
+							<input type="text" class="search-author-field search_author checkValue" placeholder="Введите имя автора" />
+						</td>
+					</tr>
+					<tr >
+						<td class="table-first-column">Название статьи</td>
+						<td class=>
+							<textarea class="search-article-name-field search_article_name checkValue" placeholder="Введите название статьи"></textarea>
+						</td>
+					</tr>
+					<tr >
+						<td class="table-first-column">Категория</td>
+						<td>
+							<select class="search-category-list search_list checkValue">
+								<option></option>
+								<option>Гуманитарные науки</option>
+								<option>Естественные науки</option>
+								<option>Технические науки </option>
+								<option>Экономические и юридические науки</option>
+								<option>Науки о Земле</option>
+								<option>Физическая культура. Спорт</option>
+								<option>Педагогика</option>
+							</select>
+						</td>
+					</tr>
+					<tr >
+						<td class="table-first-column">Год</td>
+						<td>
+							<select class="search-years-list search_year checkValue">
+								<option></option>
+								<option>2016</option>
+								<option>2015</option>
+								<option>2014</option>
+								<option>2013</option>
+								<option>2012</option>
+								<option>2011</option>
+								<option>2010</option>
+								<option>2009</option>
+								<option>2008</option>
+								<option>2007</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				
+				<br /><br />
+				<input type="button" class="search_btn" value="Отправить запрос" />
+			</fieldset>
+		</div>
+
+
+		<!-- СПИСОК СТАТЕЙ -->
+		<div class="search_head_template" style="background-color: silver">
+			<div class="td td-author">		Автор			</div>
+			<div class="td td-article-name">Название статьи	</div>
+			<div class="td td-category">	Категория		</div>
+			<div class="td td-year">		Год				</div>
+			<div class="td td-status">		Статус			</div>
+			<div class="td td-filename">	Имя файла		</div>
+			<div class="td td-pages">		Страницы		</div>
+			<div class="td td-change">		ИЗМЕНИТЬ		</div>
+		</div>
+		<div class="one_article_template">
+			<div class="td td-id-article">	</div>
+			<div class="td td-author">		</div>
+			<div class="td td-article-name"></div>
+			<div class="td td-category">	</div>
+			<div class="td td-year">		</div>
+			<div class="td td-status">		</div>
+			<div class="td td-filename">	</div>
+			<div class="td td-pages">		</div>
+			<div class="td td-change">		<input type="button" value="Изменить"	/></div>
+			<br />
+		</div>
+
+
+		<!-- СТРАНИЦЫ ДОБАВЛЕНИЯ, РЕДАКТИРОВАНИЯ И УДАЛЕНИЯ СТАТЬИ -->
+		<div class="template-uni-form">
+			<input type="hidden" class="input-id-article" /><br/>
+			Автор    :<br/><textarea class="textarea-author checkValue"	name="author"		></textarea>
+			<br/>
+			<br/>
+			Название :<br/><textarea class="textarea-article-name checkValue" name="article_name"	></textarea>
+			<br/>
+			<br/>
+			<br/>			
+			Категория:	<input class="input-category checkValue" 	type="text" value=""/>
+			Год	:		<input class="input-year     checkValue" 	type="text" value=""/>
+			Статус:		<input class="input-status   checkValue" 	type="text" value=""/>
+			<br/>
+			<br/>		
+			Имя файла:	<input class="input-filename checkValue" 	type="text" value=""/>
+			Страницы:	<input class="input-pages    checkValue"    type="text" value=""/>
+			<br/>
+			<br/>
+			Примечания:	<br/>
+						<input class="input-notes    checkValue" 	type="text" value=""/>
+			<br/>
+			<br/>
+			<br/>
+		</div>
+
+
+		<!-- шаблоны кнопок добавления, редактирования, удаления статьи -->
+		<input type="button" class="btn-add-article"    value="Добавить" />
+		<input type="button" class="btn-edit-article" 	value="Изменить" />
+		<input type="button" class="btn-delete-article" value="Удалить" />
+
+	</div><!-- окончание блока с шаблонами -->
+
+	<hr/>
+	<br />
+	<br />
+	<br />	
+	<small><a href="#" alt="" target="_blank">Чип и Дэйл</a> &copy;</small>
+</body>
+
+<script src="test.class.js"></script>
+
+<script>
+var mainDiv = $('.wrap_index');								// главный блок для подстановки страниц
+var showDiv = $('.wrap_show');								// блок для вывода статей
+
+/*
+	ИНДЕКСНАЯ СТРАНИЦА ПОКАЗА ВСЕХ СТАТЕЙ
+*/
+function pageIndex() {
+	mainDiv.html('');										// предварительная очистка сменного блока
+	mainDiv.append( $('.form_search_articles').clone() );	// выводим туда поисковую форму
+
+	mainDiv.find('.search_btn').click(function() {			// вешаем событие на клик по кнопке поиска
+		showDiv.html('');
+		sendQuery( getSearchFormData(), afterIndex, errorServer );
+	});
+
+	// прием объекта всех статей от сервера, и вывод их на странице показа статей
+	function afterIndex(arts) {
+		// обработк ошибок
+		if(!arts)					{ console.log( "ОШИБКА!!! В функцию afterIndex файла index.html не поступил параметр." ); return; }
+		if(typeof arts != 'string')	{ console.log( "ОШИБКА!!! В функцию afterIndex файла index.html поступила не строка." ); return; }
+
+		console.log( arts ); return;
+
+		var arts  		 = JSON.parse(arts); 				//console.log( arts );
+		var row 		 = $('.one_article_template'); 		// заготовка шаблона (с нее будем клонировать на каждой итерации цикла)
+
+	    showDiv.append( $('.search_head_template').clone() ); // добавляем в главный блок шапку таблицы
+
+	    // организуем цикл по числу статей из БД, на каждой итерации вставляем данные одной строки
+		for(var i = 0; i < arts.length; i++){
+			temp = row.clone(); // получили шаблон строки под одну запись из БД
+
+			// заполняем его значениями текущей строки из БД
+			temp.children('.td-id-article'  ).html(arts[i].id_article);
+			temp.children('.td-author'      ).html(arts[i].author);
+			temp.children('.td-article-name').html(arts[i].article_name);
+			temp.children('.td-category'    ).html(arts[i].category);
+			temp.children('.td-year'        ).html(arts[i].year);
+			temp.children('.td-status'      ).html(arts[i].status);
+			temp.children('.td-filename'    ).html(arts[i].filename);
+			temp.children('.td-pages'       ).html(arts[i].article_page);
+
+		    // подставляем шаблон в таблицу
+		    showDiv.append(temp);
+		}
+
+		$('.td-id-article').hide();
+		$('.td-change').click(function(e){ pageChange(e);});
+	}
+}
+
+
+
+/*
+	ДОБАВЛЕНИЕ СТАТЬИ
+*/
+function pageAdd() {
+	mainDiv.html('');									// предварительная очистка сменного блока
+
+	mainDiv.append($('.template-uni-form').clone());	// генерируем шаблон страницы
+	mainDiv.append($('.btn-add-article').clone());
+
+	// обработчик события клика по кнопке "Добавить"
+	mainDiv.find('.btn-add-article').click(function() {
+		if(!checkFormFields()) { alert('Должны быть заполнены ВСЕ поля формы!'); return; }
+		
+		var userData = getFormData( mainDiv.find('.template-uni-form') );// считываем данные из формы (стандартная процедура)
+		userData['cnt'] = 'add';										 // передаем в унивесальную функцию флаг
+
+		sendQuery({"fromRedactor": {"addArticle":userData} }, reloadSelf, errorServer);
+	});
+}
+
+
+
+/*
+	ИЗМЕНЕНИЕ СТАТЬИ
+*/
+function pageChange(e) {
+	var id_article = e.target.parentNode.parentNode.firstElementChild.innerHTML;// айдишник (через событие клика)
+
+	mainDiv.html('');												// предварительная очистка сменного блока
+
+	mainDiv.append($('.template-uni-form' ).clone()); 				// генерируем шаблон страницы
+	mainDiv.append($('.btn-edit-article'  ).clone());
+	mainDiv.append($('.btn-delete-article').clone());
+	
+	var form = mainDiv.find('.template-uni-form');					// заполняемая форма
+
+	sendQuery({"fromRedactor": {"getArticle":id_article}}, afterGet, errorServer);	// получение статьи из БД
+	function afterGet(art) { setFormData(form, JSON.parse(art)); }	// подстановка ее в форму - для показа статьи пользователю
+
+	mainDiv.find('.btn-edit-article').click(function() {			// обработчик события клика по кнопке "Редактировать"
+		if( !checkFormFields() ){ alert('Должны быть заполнены ВСЕ поля формы!'); return; };
+
+		var userData = getFormData(form);							// считываем данные из формы (стандартная процедура)
+		userData['cnt'] = 'update';									// передаем в унивесальную функцию флаг
+
+		sendQuery({"fromRedactor": {"editArticle":userData} }, reloadSelf, errorServer);
+	});
+
+	mainDiv.find('.btn-delete-article').click(function() {			// обработчик события клика по кнопке "Удалить"
+		if( !checkFormFields() ){ alert('Должны быть заполнены ВСЕ поля формы!'); return; };
+		sendQuery({"fromRedactor": {"deleteArticle":id_article} }, reloadSelf, errorServer);
+	});
+}
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
+// проверка заполнения полей формы при добавлении или изменении статьи
+function checkFormFields() {
+	var form = mainDiv.find('.template-uni-form');	// заполняемая форма
+	var error = false;
+
+	form.children('.checkValue').each(function() {	// обязательный класс checkValue
+		this.classList.remove('red');	// снимаем предыдущее выделение
+		
+		if (!this.value){
+			this.classList.add('red');	// выделяем пустой элемент
+			error = true;
+		}
+	});
+
+	if(error) return false;
+	return true;
+}
+
+// обработка ошибки ответа сервера (стандартная нагугленная функция, не трогать ее)
+function errorServer(data, codeError) {
+	if(codeError == 'parsererror'){
+        $('.error').html('Возникла ошибка при получении данных с сервера! ('+codeError+')').css({'color':'red'});
+	} else {
+        $('.error').html('Сервер не отвечает! Код ошибки: '+data.status).css({'color':'red'});
+	}
+}
+
+// универсальная функция считывания пользовательских данных из формы
+function getFormData(form) {
+	var userData = {
+		"id_article"  : form.children('.input-id-article'	  ).val(),
+		"author"      : form.children('.textarea-author' 	  ).val(),
+		"article_name": form.children('.textarea-article-name').val(),
+		"category"    : form.children('.input-category'  	  ).val(),
+		"year" 		  : form.children('.input-year'      	  ).val(),
+		"status" 	  : form.children('.input-status'   	  ).val(),
+		"filename"    : form.children('.input-filename'  	  ).val(),
+		"article_page": form.children('.input-pages'     	  ).val(),
+		"notes" 	  : form.children('.input-notes'     	  ).val()
+	};
+	return userData;
+}
+
+// считывание данных из формы поиска (которая передается в функцию снаружи)
+function getSearchFormData() {
+	var form = mainDiv.find('.form_search_articles');
+
+	return {
+		"fromRedactor": {
+			"getArticles": 	{
+				"searchAuthor"  : form.find('.search_author').val(),
+				"searchArticle"	: form.find('.search_article_name').val(),
+				"searchCategory": form.find('.search_list').val(),
+				"searchYear"	: form.find('.search_year').val()
+			}
+		}
+	};
+}
+
+// перезагрузка (редирект на ту же страницу)
+function reloadSelf() {
+	window.location.href = "index.html";
+}
+
+
+// отправка запроса
+function sendQuery(data, cbSuccess, cbError) {
+    $.ajax({
+        url     	: 'redactor_client_api.php',
+        type    	: 'POST',
+        timeout 	: 5000,
+        data    	: data,
+        beforeSend  : function(){/* ... */},			// операции, которые выполнятся перед запросом
+        success 	: function(data) { cbSuccess(data); },
+        error   	: function(data) { cbError(data); },
+	    complete 	: function(){/* ... */}				// операции, которые выполнятся после запроса
+    });
+}
+
+// универсальная функция добавления пользовательских данных в форму
+function setFormData(form, art) {
+	form.children('.input-id-article'	  ).val(art.id_article);
+	form.children('.textarea-author'	  ).val(art.author);
+	form.children('.textarea-article-name').val(art.article_name);
+	form.children('.input-category'		  ).val(art.category);
+	form.children('.input-year'		  	  ).val(art.year);
+	form.children('.input-status'		  ).val(art.status);
+	form.children('.input-filename' 	  ).val(art.filename);
+	form.children('.input-pages' 		  ).val(art.article_page);
+	form.children('.input-notes' 		  ).val(art.notes);
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*
+// диагностирование взаимодействия html-страницы и js-сценария 
+var requiredCSS     = ['red', 'hide'];
+var requiredClasses = ['checkValue', 'error'];
+var enterTest 		= new EnterTest(requiredCSS, requiredClasses);
+
+enterTest.main();
+*/
+
+// по умолчанию - выводим поисковую форму
+pageIndex();
+</script>
+
+</html>

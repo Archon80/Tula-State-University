@@ -1,0 +1,60 @@
+<?php if (isset($_GET['lang']) && $_GET['lang'] == 'en') : ?>
+
+
+		<!-- АНГЛОЯЗЫЧНАЯ ВЕРСИЯ СТРАНИЦЫ -->
+
+		<div id="bread_crumbs_and_lang">
+			<table width=100% border=0>
+				<tr>
+					<td width=80%>
+						<span class="bread-cramb">
+							<a href="http://tsu.tula.ru/">Main TSU</a>	&gt;	<a href="index.php?ID=index&lang=en">Collection of scientific papers, "Proceedings of the TSU"</a>
+						</span>
+					</td>
+					<td width=20%>
+						<span class="lang-img-rus">
+								<a href="index.php">
+									<img src="public/img/rus.jpg" alt="" class="img-lang" />
+								</a>
+						</span>
+						<span class="lang-img-eng">
+								<a href="index.php?id=index&lang=en">
+									<img src="public/img/eng.jpg" alt="" class="img-lang" />
+								</a>
+						</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+<?php else: ?>
+		
+		<!-- РУССКОЯЗЫЧНАЯ ВЕРСИЯ СТРАНИЦЫ -->
+
+		<div id="bread_crumbs_and_lang">
+			<table width=100% border=0>
+				<tr>
+					<td width=80%>
+						<span class="bread-cramb">
+							<a href="http://tsu.tula.ru/">Главная ТулГУ</a> 
+							> 
+							<a href="index.php">Сборник научных трудов "Известия ТулГУ"</a>
+						</span>
+					</td>
+					<td width=20%>
+						<span class="lang-img-rus">
+							<a href="index.php">
+								<img src="public/img/rus.jpg" alt="" class="img-lang" />
+							</a>
+						</span>
+						<span class="lang-img-eng">
+							<a href="index.php?id=index&lang=en">
+								<img src="public/img/eng.jpg" alt="" class="img-lang" />
+							</a>
+						</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+<?php endif; ?>

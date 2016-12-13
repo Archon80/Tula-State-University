@@ -1,0 +1,198 @@
+﻿/* Подключение дополнительных отдельных библиотек */
+/*@import "list_of_literature.css";						/*список литературы */
+/*@import "pdf.css";									/* pdf-менеджер */
+/*@import "article_search.css";							/* страница поиска статей */
+
+
+/* CSS Document */
+body			{ margin:0px; padding:0px; font-family:Arial, Tahoma, Helvetica, sans-serif; overflow-x:hidden; }
+b			{ font-weight:bolder;color:#4f4e4a; font-size:15px;}
+p, td		{ color:#000; font-size:14px; text-align:justify; line-height:20px}
+img			{ border:0px;}
+table			{ border:0px; border-collapse:collapse; }
+table td		{ padding:0px; vertical-align:top }
+
+
+/************************* ОБЩИЕ МОМЕНТЫ ПО ОТДЕЛЬНЫМ ЭЛЕМЕНТАМ *****************************/
+
+	/* гиперссылки */
+	a:link  				{ font-size:14px; color:#000000; }
+	a.menu_top:hover	{ text-decoration:underline;}
+	
+	/* заголовки */
+	h2  { font-size:24px; font-weight:normal;color:#000;}
+	h4  { font-size:14px;color:#868686;}
+
+
+/************************* ВНЕШНЯЯ ОБЕРТКА  ***************************/
+#wrapper {margin: 0 auto; width:100%; /*border: 5px solid black;*/ }
+
+
+/************************* ХЕДЕР *******************************/
+#header {background:url(../../public/img/fon.jpg); width:100%; /*border: 3px solid red;*/ min-width:800px; }
+	
+	#header_uni   {margin: 15px 0px 0px 50px}						/* див вокруг рисунока с текстом "Тульский государственный университет" */
+	#header_news {margin-left:20px}								/* див вокруг рисунока с текстом "Известия Тульского государственного университета" */
+
+
+/************************* ЦЕПОЧКА НАВИГАЦИИ ***********************/
+	/* внешний контейнер для навигационной цепочки */
+	#bread_crumbs_and_lang {
+		width:100%; 	
+		/*margin: 0 auto; */
+		height:				30px;
+		margin-top:			-5px;
+		padding:			0px;
+		background-color:	#dcdcdc;
+		min-width:			800px;	/* ВОТ ТУТ Я ДОПИСАЛ ВОЛШЕБНУЮ СТРОКУ КОДА */
+		/*border:1px solid red;*/
+	}
+		/* сама цепочка навигации */
+		.bread-cramb {
+			padding-left: 20px;
+			background-color: #dcdcdc;
+		}
+		/* флаги */
+		.lang-img-rus { padding:0 10px 0 45px; text-align:right; }	/* спан вокруг рисунка с рус. флагом */
+		.lang-img-eng { padding-right:20px; text-align:right; }		/* спан вокруг рисунка с англ. флагом */
+
+/************************* ОБЕРТКА ВОКРУГ ЦЕНТРАЛЬНОЙ ЧАСТИ (основного содержимого, и сайд-бара) ***************************/
+#content {	
+	min-width:800px;			/* "резина" */
+	max-width:1600px;			/* "резина" */
+
+	margin: 5px auto;
+	/* border: 3px solid green; */
+}
+
+
+/************************* ПРАВЫЙ САЙД-БАР *************************************/
+	#right-bar {float:right; width:270px; padding-left: 10px; margin: 0px 0px 0px 10px; /* border: 3px solid black;*/}
+		#right-bar h3 {font-weight: bold; text-align:left; color:#000000; padding-top: 20px;}
+		#right-bar a { font-size:14px; color:#000000; }
+		#right-bar ul {list-style-type: none; list-style-position: outside; margin-right: 10px;}
+			#right-bar ul li {padding: 3px; text-align:left;}
+
+
+/************************* ОСНОВНОЙ КОНТЕНТ ************************************/
+	#content-inner {margin-right: 292px; /* border: 3px solid brown;*/}
+		
+		#content-inner h1, #content-inner h2, #content-inner h3 {line-height:1.1;}
+		#content-inner ul {list-style-type:none;}
+			#content-inner li {list-style-type:none; font-size:14px;}
+	
+	#bufer {clear:both;}
+
+
+/************************* ПОЛОСКА ПЕРЕД ФУТЕРОМ *******************************/
+#strip {background-color: #bad2eb; height:7px; min-width:900px;}
+
+
+/************************* ФУТЕР ***********************************************/
+#footer  {margin: 20px 0 20px 20px; /*border: 3px solid blue;*/}
+	#footer a  {text-decoration:none; color:#000}
+	.feedback {width:235px; float:left}
+
+
+
+
+/************************* СТРАНИЦА ПОИСКА СТАТЕЙ*******************************/
+.hide  { display: none; }
+.red   { border: 3px solid red; } /* подсветка незаполненных полей */
+.status-error-div, .alert{ color: red }
+.status-ok-div { color: green }
+
+a { color: #00f; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+textarea { width: 500px; }
+
+/* текущая статья */
+.article-author         { width: 500px; height: 60px;  }
+.article-article-name   { width: 500px; height: 100px; }
+.article-category       { width: 200px; margin-right: 50px}
+.article-year           { width: 50px;  margin-right: 50px}
+.article-status         { width: 200px; margin-right: 50px}
+.article-filename       { width: 333;   margin-right: 50px}
+.article-pages          { width: 175;   margin-right: 50px}
+.article-notes          { width: 719;   margin-right: 50px}
+
+/* форма для ввода данных пользователем */
+.table-first-column         { width: 200px; padding-bottom: 30px; }
+.search-author-field        { width: 400px; }
+.search-article-name-field  { width: 400px; height: 100px; padding-bottom: 30px; }
+.search-category-text       { padding-bottom: 30px; }
+
+/* таблица вывода результатов (в контроллерах articles_show.php и articles_edit.php)*/
+#tidings-table 	 { border-collapse: collapse; margin: 50px 0; }
+.wrap-arts-header{font-weight: bold;} /*первая строка таблицы, с системными именами*/
+.td 			 { display:inline-block;text-align:center; padding-top: 25px; padding-bottom: 25px; }
+.td-author       { width:200px; }
+.td-article-name { width:300px; }
+.td-category     { width:150px; }
+.td-year         { width:50px;  }
+.td-status       { width:100px; }
+.td-filename     { width:100px; }
+.td-pages        { width:100px;  }
+.td-editing      { width:120px; }
+.td-deleting     { width:110;   }
+
+
+
+/************************* ДИНАМИЧЕСКИЙ СПИСОК ЛИТЕРАТУРЫ ******************************/
+.list-of-literature-table {
+	border: 1px solid #ccc;
+	font-size:13px;
+}	
+	.list-of-literature-th1 { width: 200px; /*color:#38441b;*/ }
+	.list-of-literature-th2 { width: 470px; /*color:#38441b;*/ }
+	.list-of-literature-th3 { width: 200px; /*color:#38441b;*/ }
+	
+.all-list-of-literature-table {
+	border: 1px solid #ccc;
+	font-size:13px;
+}
+	.all-list-of-literature-table-th1 { width: 20px; }
+	.all-list-of-literature-table-th2 { width: 600px; }
+	.all-list-of-literature-table-th3 { width: 150px; }
+	.all-list-of-literature-table-th4 { width: 80px; }
+
+
+
+/************************* ПДФ-МЕНЕДЖЕР ****************************************/
+.tabl_pdf_page td { padding:2px 4px; text-align: left; }					/* ??? */
+.pad0   { padding:0px; margin:20px 0px 0px 0px; text-align: center;}
+.pad1   { padding:0px 10px 0px 0px}
+.pad2   { padding:10px 0px 10px 10px }
+
+.menu { vertical-align:middle; padding:0px 0px 0px 25px }
+.fs-12 { font-size:12px}
+.left   { text-align:left}
+.center   { text-align:center}
+.middle { vertical-align:middle}
+.copirihgt { text-align: center; padding:12px; font-size: 11px; color: hsl(0,0%,85%); }
+.copirihg_journal { text-align: left; font-size: 11px; border: 0px solid #000; }
+
+#menu{ background:yellow; width:150px; height:280px; position:absolute; left:150px; top:10px; }
+.menu_text { text-align: center; padding:3px; font-size: 11px; color: hsl(0,0%,85%); }
+.frame_menu {
+  display: inline-block;
+  padding: 15px;
+  border-spacing: 4px;
+  color: hsl(0,0%,85%);
+  font-size: 12px;
+  line-height: 14px;
+  background-color: #474747; /* fallback */
+  background-image: url(images/texture.png),
+                    linear-gradient(hsla(0,0%,32%,.99), hsla(0,0%,27%,.95));
+}
+#oblojka_left { margin:-3px 0 0 20px; }
+.correct {margin-top:20px;}
+#oblojka {margin: 25px 20px 10px 0; float:left;}
+.oblojka {padding:10px;}
+#main_1 { padding: 1px 0 0 20px; }
+.td-space {margin-left:15px;}	/* отступы между элементами сборника */
+
+
+/************************* ПРОЧЕЕ **********************************************/
+

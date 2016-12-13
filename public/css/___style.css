@@ -1,0 +1,96 @@
+﻿/* CSS Document */
+body			{ margin:0px; padding:0px; font-family:Arial, Tahoma, Helvetica, sans-serif; overflow-x:hidden; }
+b			{ font-weight:bolder;color:#4f4e4a; font-size:15px;}
+p,td			{ color:#000; font-size:14px; text-align:justify; line-height:20px}
+img			{ border:0px;}
+table			{ border:0px; border-collapse:collapse; }
+table td		{ padding:0px; vertical-align:top }
+
+#wrapper {margin: 0 auto; width:100%; /*border: 5px solid black;*/ }
+#header {background:url(../../images/fon.jpg); width:100%; /*border: 3px solid red;*/ min-width:800px; }
+	#header_uni {margin: 15px 0px 0px 50px}
+	#header_news {margin-left:70px}
+	#header_lang {padding-top:10px;}
+	
+			.lang-inner1 { padding:0 10px 0 45px; text-align:right; }
+			.lang-inner2 { padding-right:20px; text-align:right; }
+
+#content {	
+	min-width:800px;
+	max-width:1600px;	
+
+	margin: 5px auto;
+	/* border: 3px solid green; */
+}
+	#right-bar {float:right; width:270px; padding-left: 10px; border: /*3px solid black;*/}
+		#right-bar h3 {font-weight: bold; text-align:left; color:#000000; padding-top: 20px;}
+		#right-bar a { font-size:14px; color:#000000; }
+		#right-bar ul {list-style-type: none; list-style-position: outside; margin-right: 10px;}
+			#right-bar ul li {padding: 3px; text-align:left;}
+	
+		#bread_crumbs_and_lang {						/* внешний контейнер для хлебных крошек */
+			width:100%; 	
+			/*margin: 0 auto; 						/* центрирован по ширине */
+			height: 30px;
+			padding: 0px;
+			background-color: #dcdcdc;
+			min-width:800px;			/* ВОТ ТУТ Я ДОПИСАЛ ВОЛШЕБНУЮ СТРОКУ КОДА */
+			/*border:1px solid red;*/
+		}			
+			
+			.bread-cramb {
+				padding-left: 20px;
+				background-color: #dcdcdc;
+				
+			}
+			
+				
+				
+	
+	#content-inner {margin-right: 50px; /* border: 3px solid brown;*/}
+		.oblojka {padding:10px;}
+		#content-inner h1, #content-inner h2, #content-inner h3 {line-height:1.1;}
+		#content-inner ul {list-style-type:none;}
+			#content-inner li {list-style-type:none; font-size:14px;}
+		.correct {margin-top:20px;}
+		#oblojka {margin: 25px 20px 10px 0; float:left;}
+		
+			.td-space {margin-left:15px;}	/* отступы между элементами сборника */
+	#bufer {clear:both;}
+	#right-bar {margin: 0px 0px 0px 10px; }
+	
+#strip {background-color: #bad2eb; height:7px; min-width:900px;}
+#footer {margin: 20px 0 20px 20px; /*border: 3px solid blue;*/}
+	#feedback {width:235px; float:left}
+	
+a:link   { font-size:14px; color:#000000; }
+a.menu_top:hover	{ text-decoration:underline;}
+
+
+.hide { display: none; }
+.tabl_pdf_page td { padding:2px 4px; text-align: left; }
+.menu { vertical-align:middle; padding:0px 0px 0px 25px }
+h2  { font-size:24px; font-weight:normal;color:#000;}
+h4  { font-size:14px;color:#868686;}
+.fs-12 { font-size:12px}
+.center { text-align:center;}
+.middle { vertical-align:middle}
+.left   { text-align:left}
+.pad0   { padding:0px; margin:20px 0px 0px 0px; text-align: center;}
+.pad1   { padding:0px 10px 0px 0px}
+.pad2   { padding:10px 0px 10px 10px }
+.copirihgt { text-align: center; padding:12px; font-size: 11px; color: hsl(0,0%,85%); }
+.copirihg_journal { text-align: left; font-size: 11px; border: 0px solid #000; }
+
+#menu{ background:yellow; width:150px; height:280px; position:absolute; left:150px; top:10px; }
+.menu_text { text-align: center; padding:3px; font-size: 11px; color: hsl(0,0%,85%); }
+.frame_menu {
+  display: inline-block;
+  padding: 15px;
+  border-spacing: 4px;
+  color: hsl(0,0%,85%);
+  font-size: 12px;
+  line-height: 14px;
+  background-color: #474747; /* fallback */
+  background-image: url(images/texture.png),
+                    linear-gradient(hsla(0,0%,32%,.99), hsla(0,0%,27%,.95));

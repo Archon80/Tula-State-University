@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Поиск статей</title>
+	<style>
+		body { font-family: Georgia; font-size: 14px; color: #000; }
+
+		.red   { border: 3px solid red; } /* подсветка незаполненных полей */
+		.error, .alert{ color: red }
+		.hide  { display: none; }
+
+		a { color: #00f; text-decoration: none; }
+		    a:hover { text-decoration: underline; }
+
+		textarea { width: 500px; }
+
+		/* текущая статья */
+		.article-author         { width: 500px; height: 60px;  }
+		.article-article-name   { width: 500px; height: 100px; }
+		.article-category       { width: 200px; margin-right: 50px}
+		.article-year           { width: 50px;  margin-right: 50px}
+		.article-status         { width: 200px; margin-right: 50px}
+		.article-filename       { width: 333;   margin-right: 50px}
+		.article-pages          { width: 175;   margin-right: 50px}
+		.article-notes          { width: 719;   margin-right: 50px}
+
+		/* форма для ввода данных пользователем */
+		.table-first-column         { width: 200px; padding-bottom: 30px; }
+		.search-author-field        { width: 400px; }
+		.search-article-name-field  { width: 400px; height: 100px; padding-bottom: 30px; }
+		.search-category-text       { padding-bottom: 30px; }
+
+		/* таблица вывода результатов (в контроллерах articles_show.php и articles_edit.php)*/
+		#tidings-table 	 { border-collapse: collapse; margin: 50px 0; }
+		.wrap-arts-header{font-weight: bold;} /*первая строка таблицы, с системными именами*/
+		.td 			 { display:inline-block;text-align:center; padding-top: 25px; padding-bottom: 25px; }
+		.td-author       { width:300px; }
+		.td-article-name { width:450px; }
+		.td-category     { width:200px; }
+		.td-year         { width:50px;  }
+		.td-status       { width:150px; }
+		.td-filename     { width:200px; }
+		.td-pages        { width:50px;  }
+		.td-editing      { width:180px; }
+		.td-deleting     { width:110;   }
+	</style>
+    <script type="text/javascript" src="jquery.js"></script>
+</head> 
+
+<body>
+
+<h2 class="pad0">Поиск статьи</h2>
+
+<div class="error"></div>
+
+<div class="wrap-enter-data">
+	<fieldset>
+		<legend><h3>Введите сюда данные для поиска</h3></legend>
+		
+		<table id="tidings-table-search">
+			<tr >
+				<td class="table-first-column">Автор</td>
+				<td>
+					<input type="text" class="search-author-field checkValue" placeholder="Введите имя автора" />
+				</td>
+			</tr>
+			<tr >
+				<td class="table-first-column">Название статьи</td>
+				<td class=>
+					<textarea class="search-article-name-field checkValue" placeholder="Введите название статьи"></textarea>
+				</td>
+			</tr>
+			<tr >
+				<td class="table-first-column">Категория</td>
+				<td>
+					<select class="search-category-list checkValue">
+						<option></option>
+						<option>Гуманитарные науки</option>
+						<option>Естественные науки</option>
+						<option>Технические науки </option>
+						<option>Экономические и юридические науки</option>
+						<option>Науки о Земле</option>
+						<option>Физическая культура. Спорт</option>
+						<option>Педагогика</option>
+					</select>
+				</td>
+			</tr>
+			<tr >
+				<td class="table-first-column">Год</td>
+				<td>
+					<select class="search-years-list checkValue">
+						<option></option>
+						<option>2016</option>
+						<option>2015</option>
+						<option>2014</option>
+						<option>2013</option>
+						<option>2012</option>
+						<option>2011</option>
+						<option>2010</option>
+						<option>2009</option>
+						<option>2008</option>
+						<option>2007</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		
+		<br /><br />
+		<input type="button" id="search-data-send" value="Отправить запрос" />
+	</fieldset>
+</div>
+<br />
+<br />
+<div id="search-page-result">
+
+	<!-- Вывод результатов -->
+	<div class="main-table hide">
+		<div class="wrap-arts-header" style="background-color: silver" >
+			<div class="td td-author">		Автор			</div>
+			<div class="td td-article-name">Название статьи	</div>
+			<div class="td td-category">	Категория		</div>
+			<div class="td td-year">		Год				</div>
+			<div class="td td-status">		Статус			</div>
+			<div class="td td-filename">	Имя файла		</div>
+			<div class="td td-pages">		Страницы		</div>
+		</div>
+	</div>
+
+	<div class="all-templates" class="hide">
+		<div class="wrap-arts">
+			<div class="td td-author">		</div>
+			<div class="td td-article-name"></div>
+			<div class="td td-category">	</div>
+			<div class="td td-year">		</div>
+			<div class="td td-status">		</div>
+			<div class="td td-filename">	</div>
+			<div class="td td-pages">		</div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
+
+
+<!-- универсальные инструменты (тестирование, логирование) -->
+<script src="../../public/js/lib_uni_tools/Test.class.js"></script>
+<script src="../../public/js/lib_uni_tools/Log.class.js"></script>
+
+<!-- основной рабочий сценарий страницы -->
+<script>
+// класс для отправки данных на сервер
+function Server(){
+	
+	// переменные сценария
+	var 
+	    path2server   = 'viewer_client_api.php',
+	    methodConnect = 'POST',
+	    errorDiv      = document.querySelector('.error'),
+	    templateDiv   = document.querySelector('.all-templates').firstElementChild,
+	    mainTable     = document.querySelector('.main-table');
+
+
+    // разновидность проверки: должно быть заполнено хотя бы одно поле
+	function checkFormFields() {
+		var cnt = 0;
+
+		$('.checkValue').each(function() {	// если не подключена jQuery, реализовать на JS
+			if (!this.value) cnt++;
+		});
+
+		if(cnt == 4) return false;
+		return true;
+	}
+
+	// возвращает объект с данными формы (каждый раз прописывается индивидуально)
+	function getFormData() {
+		var res = {
+			"YBS" : {
+				"searchAuthor"  : document.querySelector('.search-author-field').value,
+				"searchArticle"	: document.querySelector('.search-article-name-field').value,
+				"searchCategory": document.querySelector('.search-category-list').value,
+				"searchYear"	: document.querySelector('.search-years-list').value
+			}
+		};
+		return res;
+	}
+
+	// обработка ошибки ответа сервера (стандартная нагугленная функция, не трогать ее)
+	function error(data, codeError) {
+		if(codeError == 'parsererror'){
+            $('.error').html('Возникла ошибка при получении данных с сервера! ('+codeError+')').css({'color':'red'});
+		} else {
+            $('.error').html('Сервер не отвечает! Код ошибки: '+data.status).css({'color':'red'});
+		}
+	}
+
+	// обработка ответа сервера
+	function success(serverAnswer) {
+		if(!serverAnswer)					{ Log.errorLog( 'В функцию success не поступил параметр.' ); return; }
+		if(typeof serverAnswer != 'string')	{ Log.errorLog( 'В функцию success поступила не строка.' ); return; }
+
+		// из строки в массив
+		serverAnswer = JSON.parse(serverAnswer);
+		console.log( serverAnswer ); //return;
+
+		// очистка полей формы
+		$('.checkValue').each(function() {
+			//this.value = '';
+		});
+
+		// делаем видимой таблицу вывода результатов
+		mainTable.classList.remove('hide');
+
+		// организуем цикл по числу статей из БД, на каждой итерации вставляем данные одной строки
+		for(var i = 0; i < serverAnswer.length; i++){
+			createOneRow(serverAnswer[i]);
+		}
+	}
+
+	// обработка ответа сервера
+	function createOneRow(arrData) {
+		if(!arrData)					{ Log.errorLog( 'В функцию createOneRow файла articles_search.html не поступил параметр (ответ сервера).' ); return; }
+		if(typeof arrData != 'object')	{ Log.errorLog( 'В функцию createOneRow файла articles_search.html в качестве ответа сервера поступил не объект.' );   return; }
+
+		var currentTemplate = templateDiv.cloneNode(true);
+
+		currentTemplate.children[0].innerHTML = arrData.author;
+		currentTemplate.children[1].innerHTML = arrData.article_name;
+		currentTemplate.children[2].innerHTML = arrData.category;
+		currentTemplate.children[3].innerHTML = arrData.year;
+		currentTemplate.children[4].innerHTML = arrData.status;
+		currentTemplate.children[5].innerHTML = arrData.filename;
+		currentTemplate.children[6].innerHTML = arrData.article_page;
+
+		mainTable.appendChild(currentTemplate);
+	}
+
+	// функция для отправки запроса (обертка вокруг метода jQuery)
+	function sendQuery(data, cbSuccess, cbError) {
+		// проверки входных параметров
+		if(!data)					{ Log.errorLog( 'В функцию sendQuery файла article_search.html не поступил 1-ый параметр data (объект данных)' ); return; }
+		if(typeof data != 'object')	{ Log.errorLog( 'В функцию sendQuery файла article_search.html в качестве 1-го параметра data поступил не объект.' );   return; }
+
+		if(!cbSuccess)						{ Log.errorLog( 'В функцию sendQuery файла article_search.html не поступил 2-й параметр cbSuccess (функция для успешного ответа сервера)' ); return; }
+		if(typeof cbSuccess != 'function')	{ Log.errorLog( 'В функцию sendQuery файла article_search.html в качестве 2-го параметра cbSuccess поступила не функция.' );   return; }
+
+		if(!cbError)						{ Log.errorLog( 'В функцию sendQuery файла article_search.html не поступил 3-й параметр cbError (функция для ошибочного ответа сервера)' ); return; }
+		if(typeof cbError != 'function')	{ Log.errorLog( 'В функцию sendQuery файла article_search.html в качестве 2-го параметра cbError поступила не функция.' );   return; }
+
+		// проверяем путь к файлу сервера: наличие
+		Log.assert(typeof path2server == 'string', 'Переменная path2server (путь к файлу сервера) - не строка');
+		Log.assert(path2server != '',              'Переменная path2server (путь к файлу сервера) - пустая строка');
+
+		// проверяем метод передачи данных: наличие
+		Log.assert(typeof methodConnect == 'string', 'Переменная methodConnect (метод AJAX-запроса) - не строка');
+		Log.assert(methodConnect != '', 'Переменная methodConnect (метод AJAX-запроса) - пустая строка');
+		Log.assert(methodConnect == 'POST', 'Переменная methodConnect (метод AJAX-запроса) - не POST');
+
+		// посылаем запрос
+	    $.ajax({
+	        url     	: path2server,						// адрес обработчика
+	        type    	: methodConnect,					// метод передачи данных
+	        timeout 	: 5000,
+	        data    	: data,								// отправляемые данные
+            beforeSend  : function(){/* ... */},			// операции, которые выполнятся перед запросом
+	        success 	: function(data) { cbSuccess(data) },
+	        error   	: function(data) { cbError(data); },
+	        complete 	: function(){/* ... */}				// операции, которые выполнятся gjckt pfghjcf
+	    });
+	}
+
+	this.main = function() {
+		if( checkFormFields() ) sendQuery(getFormData(), success, error);
+		else 					alert("Должно быть заполнено хотя бы одно поле!");
+	}
+} // end of Server
+
+
+
+
+// диагностирование взаимодействия html-страницы и js-сценария 
+var requiredCSS     = ['red', 'hide'];			// обязательные для работы сценария CSS-правила
+var requiredClasses = ['checkValue', 'error'];	// обязательные для работы сценария классы
+var enterTest 		= new EnterTest(requiredCSS, requiredClasses);
+
+enterTest.main();
+
+
+// подключаем необходимые для работы классы
+var Log    = new Log();
+var server = new Server();
+
+// принимаем данные пользователя, шлем на сервер, выводим ответ сервера
+document.querySelector('#search-data-send').onclick = function() { server.main(); }
+</script>
